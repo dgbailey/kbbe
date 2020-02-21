@@ -3,20 +3,28 @@
 const db = require('../../dbConfig');
 const validateUsername = require('./validateUsername');
 const insertUser = require('../../repositories/users/insertUser');
+const {generateToken} = require('../../utilities/auth/auth');
+const generateUuid = require('../../utilities/auth/generateUuid');
+const generateHash = require('../../utilities/auth/hashPassword');
 
-async function registerUser(userCreds){
+async function registerNewUser(userCreds){
 
     try{
         let userNameIsValid = await validateUsername(userCreds.username);
         if(!userNameIsValid){
-            return 'Username already exists' //return some message about already existing --this is more business logic for the service
+            return 'Username already exists';
         }
         else{
-            //hash pw
-            //create jwt
-            let user = await insertUser(userCreds);
-            //return jwt and any user info on object
-            //still need controller and URI
+          
+            let uuid = generateUuid();
+            let hashedPassword = generateHash(userCreds.password)
+            userCreds['uuid'] = uuid;
+            userCreds['password'] = hashedPassword;
+
+            let [user,userUuid] = await insertUser(userCreds);
+            let jwt = generateToken({user,userUuid});
+
+            return jwt
             
             
         }
@@ -25,11 +33,7 @@ async function registerUser(userCreds){
         throw new Error(`Server error in registration: ${err}`);
     }
   
-   
-    //check if userid exists
-    //throw error if exists
-    //else
-        //hash user credentials
-        //issue token
 
 }
+
+module.exports = registerNewUser;

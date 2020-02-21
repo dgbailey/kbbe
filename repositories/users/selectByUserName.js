@@ -3,7 +3,7 @@ const db = require('../../dbConfig');
 
 async function selectByUsername(username){
     try{
-        let user = await db.select('users').where({'username':username});   
+        let user = await db('users').where({'username':username});   
         if(!user.length){
             return false
         }

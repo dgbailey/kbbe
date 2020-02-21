@@ -3,8 +3,8 @@ const db = require('../../dbConfig');
 async function insertUser(user){
 
     try{
-        let user = await db('users').insert({username:user.username,user_uuid:user.uuid,password:user.password});
-        return user
+        let u = await db('users').insert({username:user.username,user_uuid:user.uuid,password:user.password},['username','user_uuid']);
+        return u
 
     }
     catch(err){
@@ -13,3 +13,5 @@ async function insertUser(user){
     
 
 }
+
+module.exports = insertUser;
