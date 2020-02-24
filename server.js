@@ -8,7 +8,7 @@ const userRoutes = require('./controllers/users');
 
 const server = express();
 
-server.use(cors());
+server.use(cors({origin:'http://localhost:3001',credentials:true,methods:['GET', 'PUT', 'POST','DELETE']}));
 server.use(helmet());
 server.use(morgan('dev'));
 server.use(bodyParser.json());

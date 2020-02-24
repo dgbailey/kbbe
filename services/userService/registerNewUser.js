@@ -12,7 +12,7 @@ async function registerNewUser(userCreds){
     try{
         let userNameIsValid = await validateUsername(userCreds.username);
         if(!userNameIsValid){
-            return 'Username already exists';
+            throw new Error('DUPLICATE_ID')
         }
         else{
           

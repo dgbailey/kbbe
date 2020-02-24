@@ -12,11 +12,19 @@ router.post('/signup',async (req,res) =>{
     console.log(body);
     try{
         let newUser = await registerNewUser(body);
-        res.status(200).json(newUser);
+        console.log(newUser)
+        res.cookie('kbt',newUser,{httpOnly: true})
+        res.status(200).json('user registraion successful');
     }
     catch(err){
-        res.status(500).json(err.message);
+        if(err.message === 'DUPLICATE_ID'){
+            res.status(400).json(err.message);
+        }
+        else{
+            res.status(500).json(err.message);
+        }
         console.log(err.message)
+       
     }
 
 })
