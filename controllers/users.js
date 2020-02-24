@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 //registration service
 const registerNewUser = require('../services/userService/registerNewUser');
+const checkAuthorizationExpired = require('../utilities/middleware/checkAuthorizationExpired');
 
 
 router.post('/signup',async (req,res) =>{
@@ -26,6 +27,14 @@ router.post('/signup',async (req,res) =>{
         console.log(err.message)
        
     }
+
+})
+
+router.get('/login',checkAuthorizationExpired, async(req,res) => {
+
+    //get get board meta by user id
+
+
 
 })
 

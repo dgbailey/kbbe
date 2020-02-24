@@ -9,7 +9,7 @@ const insertBoard = boardId =>{
 
 const insertUserAndBoard = (userId,boardId) => {
 
-    return db('board_user_bridge').insert({user_id:userId,board_id:boardId})
+    return db('board_user_bridge').insert({user_uuid:userId,board_id:boardId})
 }
 
 
