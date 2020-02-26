@@ -4,7 +4,7 @@ const router = express.Router();
 //registration service
 const registerNewUser = require('../services/userService/registerNewUser');
 const checkAuthorizationExpired = require('../utilities/middleware/checkAuthorizationExpired');
-
+const getBoardMetaByUserId = require('../services/userService/loginPreflightStatus');
 
 router.post('/signup',async (req,res) =>{
 
@@ -30,7 +30,8 @@ router.post('/signup',async (req,res) =>{
 
 })
 
-router.get('/login',checkAuthorizationExpired, async(req,res) => {
+
+router.get('/login', async(req,res) => {
 
     //get get board meta by user id
 
@@ -38,5 +39,26 @@ router.get('/login',checkAuthorizationExpired, async(req,res) => {
 
 })
 
+router.get('/login/preflight',checkAuthorizationExpired, async(req,res) => {
+
+    //checkAuthExpired middleware checks cookie status, appends user metadata to req for further processing
+
+    let {uuid:userId} = req.user;
+    console.log('userid',userId);
+
+    try{
+        let metaData = await getBoardMetaByUserId(userId);
+        if(!metaData){
+            throw new Error('Server Error: Controller no board metadata')
+        }
+        let body = {metaData};
+        console.log(body);
+        res.status(200).json(body);
+    }
+    catch(err){
+        throw new Error(`Server Error: user controller login preflight ${err}`)
+    }
+
+})
 
 module.exports = router;

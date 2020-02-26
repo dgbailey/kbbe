@@ -21,8 +21,8 @@ async function registerNewUser(userCreds){
             userCreds['uuid'] = uuid;
             userCreds['password'] = hashedPassword;
 
-            let [user,userUuid] = await insertUser(userCreds);
-            let jwt = generateToken({user,userUuid});
+            let [{username:userName,user_uuid:userUuid}] = await insertUser(userCreds);
+            let jwt = generateToken({userName,userUuid});
 
             return jwt
             

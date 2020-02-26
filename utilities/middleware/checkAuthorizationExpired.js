@@ -8,12 +8,18 @@ function checkAuthorizationExpired(req,res,next){
     console.log('cookies',req.cookies);
 
     try{
+        if(!token){
+            throw new Error('AUTH ERROR: No cookie found');
+        }
+        
         let decodedJwtSuccess = verifyLivingJwt(token);
+        console.log('decoded success',decodedJwtSuccess)
         req.user = decodedJwtSuccess;
         next();
     }
     catch(err){
         res.status(401).json(err.message)
+        console.log(err)
     }
 
 

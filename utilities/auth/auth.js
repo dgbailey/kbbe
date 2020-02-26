@@ -25,10 +25,10 @@ require('dotenv').config();
 function generateToken(user){
 
     const secret = process.env.JWT_SECRET;
- 
+    console.log('jwt user obj',user)
     const  payload = {
-        subject:user.uuid,
-        username:user.username,
+        uuid:user.userUuid,
+        username:user.userName,
     };
     const options = {
         expiresIn:'30s',
