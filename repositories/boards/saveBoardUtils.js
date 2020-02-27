@@ -1,9 +1,9 @@
 const db = require('../../dbConfig');
 
 
-const insertBoard = boardId =>{
+const insertBoard = (boardId,name) =>{
 
-    return db('boards').insert({board_id:boardId})
+    return db('boards').insert({board_id:boardId,name})
 
 }
 

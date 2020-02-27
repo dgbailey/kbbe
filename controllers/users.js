@@ -14,8 +14,9 @@ router.post('/signup',async (req,res) =>{
     try{
         let newUser = await registerNewUser(body);
         console.log(newUser)
-        res.cookie('kbt',newUser,{httpOnly: true})
-        res.status(200).json('user registraion successful');
+        let {jwt,userName,userId} = newUser;
+        res.cookie('kbt',jwt,{httpOnly: true})
+        res.status(200).json({userName,userId});
     }
     catch(err){
         if(err.message === 'DUPLICATE_ID'){
@@ -51,7 +52,7 @@ router.get('/login/preflight',checkAuthorizationExpired, async(req,res) => {
         if(!metaData){
             throw new Error('Server Error: Controller no board metadata')
         }
-        let body = {metaData};
+        let body = {userId,metaData};
         console.log(body);
         res.status(200).json(body);
     }

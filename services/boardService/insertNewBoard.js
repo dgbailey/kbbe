@@ -48,10 +48,10 @@ const insertBatchColumns = (boardObject) => {
 
 const createBoard = boardObject => {
 
-    let {boardId,userId} = boardObject;
+    let {boardId,userId,boardName} = boardObject;
     //WARNING this is not a transaction there is no guarantee all of the create board operations will either happen or not happen
 
-    return boardRepository.insertBoard(boardId)
+    return boardRepository.insertBoard(boardId,boardName)
             .then(() => boardRepository.insertUserAndBoard(userId,boardId))
             .then(() => insertBatchColumns(boardObject))
             .then(() => insertBatchItems(boardObject))

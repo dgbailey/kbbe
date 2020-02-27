@@ -24,7 +24,7 @@ async function registerNewUser(userCreds){
             let [{username:userName,user_uuid:userUuid}] = await insertUser(userCreds);
             let jwt = generateToken({userName,userUuid});
 
-            return jwt
+            return {jwt,userId:uuid,userName:userCreds.username}
             
             
         }
