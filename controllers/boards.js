@@ -14,6 +14,30 @@ router.get('/:id',(req,res) =>{
 
 })
 
+// router.get('/:id/columns',(req,res) =>{
+
+    //returns columns associated with the board
+
+
+// })
+
+
+// router.get('/:id/items',(req,res) =>{
+
+    //returns items associated with the board
+
+
+// })
+
+
+
+// router.get('/:id/actions',(req,res) =>{
+
+    //in the future this will return actions taken by users on this board
+
+
+// })
+
 router.post('/newBoard',(req,res) => {
     console.log('boardObject',req.body)
     let boardObject = req.body;
