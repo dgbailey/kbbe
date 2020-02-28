@@ -5,6 +5,7 @@ async function getBoardByBoardId(boardId){
 
     try{
         let board = await db('boards').where('board_id',boardId);
+        return board
     }
     catch(err){
         throw new Error(`Server Error - Repository getBoardByBoardId - ${err}`)
