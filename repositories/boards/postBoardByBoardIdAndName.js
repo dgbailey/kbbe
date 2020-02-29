@@ -1,14 +1,16 @@
 const db = require('../../dbConfig');
 
 
-async function postBoardByBoardIdAndName(boardId,name){
+async function postBoardByBoardIdAndName(boardObject){
+    const {boardId:board_id,name} = boardObject;
+    const insertionObject = {board_id,name}
     //insert(data, [returning])
     try{
-        let status = await db('boards').insert({board_id:boardId,name});
-        return status
+        let board = await db('boards').insert(insertionObject,['board_id','name']);
+        return board
     }
     catch(err){
-        throw new Error(`Server error - Repository postBoardByBoardIdAndName - ${err}`)
+        throw new  RepositoryError('postBoardByBoardIdAndName',err);
     }
     
 

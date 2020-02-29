@@ -8,7 +8,7 @@ async function getColumnsByBoardId(boardId){
         return columns
     }
     catch(err){
-        throw new Error(`Server Error - Repository getColumnsByBoardId - ${err}`)
+        throw new  RepositoryError('getColumnsByBoardId',err);
     }
     
   

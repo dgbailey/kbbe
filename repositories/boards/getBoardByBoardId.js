@@ -1,4 +1,5 @@
 const db = require('../../dbConfig');
+const RepositoryError = require('../../utilities/errors/repositoryError');
 
 
 async function getBoardByBoardId(boardId){
@@ -8,7 +9,7 @@ async function getBoardByBoardId(boardId){
         return board
     }
     catch(err){
-        throw new Error(`Server Error - Repository getBoardByBoardId - ${err}`)
+        throw new RepositoryError('getBoardByBoardId',err);
     }
     
   

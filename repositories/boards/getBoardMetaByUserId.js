@@ -14,7 +14,7 @@ async function getBoardMetaByUserId(userId){
         }
     }
     catch(err){
-        throw new Error(`SERVER Error: In repository getBoardMetaData ${err}`)
+        throw new  RepositoryError('getBoardMetaByUserId',err);
     }
    
 }
