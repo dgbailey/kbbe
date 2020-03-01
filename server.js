@@ -6,6 +6,8 @@ const express = require('express');
 const boardRoutes = require('./controllers/boards');
 const bodyParser = require('body-parser');
 const userRoutes = require('./controllers/users');
+const clientErrorHandler = require('./utilities/middleware/clientErrorHandler');
+const catchAllErrorHandler = require('./utilities/middleware/catchAllErrorHandler');
 
 const server = express();
 
@@ -16,6 +18,8 @@ server.use(morgan('dev'));
 server.use(bodyParser.json());
 server.use('/boards',boardRoutes);
 server.use('/flow',userRoutes);
+server.use(clientErrorHandler);
+server.use(catchAllErrorHandler);
 
 
 module.exports = server;
