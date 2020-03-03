@@ -33,7 +33,7 @@ router.get('/:id',async (req,res) =>{
 
 //still running into unhandled promise warnings
 
-router.post('/',async (req,res) => {
+router.post('/',async (req,res,next) => {
 
     let q = req.query;
     console.log(req.query)
