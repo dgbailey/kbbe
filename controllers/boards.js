@@ -2,32 +2,50 @@ const express = require('express');
 const router = express.Router();
 const userService = require('../services/boardService/getColumnsByBoardId');
 const boardService = require('../services/boardService/insertNewBoard');
+const getColumnsByBoardServic = require('../services/columnService/getColumnsByBoardIdService');
+const getBoardByBoardIdService = require('../services/boardService/getBoardByBoardIdService');
+const postBoardByBoardIdAndNameService = require('../services/boardService/postBoardByBoardIdAndNameService');
 
-router.get('/:id',(req,res) =>{
+
+// router.get('/:id',(req,res) =>{
+
+//     let id = req.params.id;
+//     console.log('boardid',id)
+
+//     userService(id).then(data => res.status(200).json(data)).catch(err => res.status(500).json(err));
+
+
+
+// })
+
+router.get('/:id',async (req,res) =>{
 
     let id = req.params.id;
-    console.log('boardid',id)
-
-    userService(id).then(data => res.status(200).json(data)).catch(err => res.status(500).json(err));
-
-
+    try{
+        let board = await getBoardByBoardIdService(id);
+        res.status(200).json(board);
+    }
+    catch(customError){
+        throw customError
+    }
 
 })
 
-// router.get('/:id/columns',(req,res) =>{
+//still running into unhandled promise warnings
 
-    //returns columns associated with the board
+router.post('/',async (req,res) => {
 
+    let q = req.query;
+    console.log(req.query)
+    try{
+        let board = await postBoardByBoardIdAndNameService(q);
+        res.status(200).json(board);
+    }
+    catch(customError){
+        throw customError
+    }
+})
 
-// })
-
-
-// router.get('/:id/items',(req,res) =>{
-
-    //returns items associated with the board
-
-
-// })
 
 
 

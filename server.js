@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const express = require('express');
 const boardRoutes = require('./controllers/boards');
+const columnRoutes = require('./controllers/columns');
+const itemRoutes = require('./controllers/items');
 const bodyParser = require('body-parser');
 const userRoutes = require('./controllers/users');
 const clientErrorHandler = require('./utilities/middleware/clientErrorHandler');
@@ -18,6 +20,8 @@ server.use(morgan('dev'));
 server.use(bodyParser.json());
 server.use('/boards',boardRoutes);
 server.use('/flow',userRoutes);
+server.use('/items',itemRoutes);
+server.use('/columns',columnRoutes);
 server.use(clientErrorHandler);
 server.use(catchAllErrorHandler);
 

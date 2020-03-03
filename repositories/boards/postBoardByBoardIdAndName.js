@@ -1,5 +1,5 @@
 const db = require('../../dbConfig');
-
+const RepositoryError = require('../../utilities/errors/repositoryError');
 
 async function postBoardByBoardIdAndName(boardObject){
     const {boardId:board_id,name} = boardObject;
