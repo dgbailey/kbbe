@@ -1,6 +1,6 @@
 function catchAllErrorHandler (err, req, res, next) {
-    res.status(500)
-    res.render('error', { error: err })
+  console.log(err);
+    res.status(500).send({ error: 'Something Non client failed!' })
   }
 
 module.exports = catchAllErrorHandler;

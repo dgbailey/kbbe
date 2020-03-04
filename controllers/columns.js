@@ -4,7 +4,7 @@ const getColumnsByBoardIdService = require('../services/columnService/getColumns
 const postColumnService = require('../services/columnService/postColumnService');
 
 
-router.get('/:id',async (req,res) =>{
+router.get('/:id',async (req,res,next) =>{
 
     let id = req.params.id;
     try{
@@ -12,20 +12,20 @@ router.get('/:id',async (req,res) =>{
         res.status(200).json(columns);
     }
     catch(customError){
-        throw customError
+        next(customError)
     }
 
 })
 
-router.post('/',async (req,res) => {
+router.post('/',async (req,res,next) => {
 
     const q = req.query;
     try{
-        let column = postColumnService(q);
+        let column = await postColumnService(q);
         res.status(200).json(column)
     }
     catch(customError){
-        throw customError
+        next(customError)
     }
 
 

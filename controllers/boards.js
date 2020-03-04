@@ -26,12 +26,12 @@ router.get('/:id',async (req,res) =>{
         res.status(200).json(board);
     }
     catch(customError){
-        throw customError
+        next(customError)
     }
 
 })
 
-//still running into unhandled promise warnings
+//still running into unhandled promise warnings. This was fixed.  Async errors were not being passed to express next();
 
 router.post('/',async (req,res,next) => {
 
@@ -42,7 +42,7 @@ router.post('/',async (req,res,next) => {
         res.status(200).json(board);
     }
     catch(customError){
-        throw customError
+        next(customError)
     }
 })
 
