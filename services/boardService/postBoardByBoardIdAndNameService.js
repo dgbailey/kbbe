@@ -9,7 +9,8 @@ async function postBoardByBoardIdAndNameService({name,...rest}){
     const boardObject = {boardId,name}
 
     try{
-        let board = await postBoardByBoardIdAndName(boardObject);
+        let [board] = await postBoardByBoardIdAndName(boardObject);
+        console.log(board)
         return board
     }
     catch(err){

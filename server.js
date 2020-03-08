@@ -13,7 +13,7 @@ const catchAllErrorHandler = require('./utilities/middleware/catchAllErrorHandle
 
 const server = express();
 
-server.use(cors({origin:'http://localhost:3001',credentials:true,methods:['GET', 'PUT', 'POST','DELETE']}));
+server.use(cors({origin:'http://localhost:3000',credentials:true,methods:['GET', 'PUT', 'POST','DELETE']}));
 server.use(cookieParser());
 server.use(helmet());
 server.use(morgan('dev'));
