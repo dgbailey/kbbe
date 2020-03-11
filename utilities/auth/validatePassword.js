@@ -1,14 +1,10 @@
 const bcrypt = require('bcryptjs');
 
-
-function validatePassword(storedPasswordHash,reqObjectPassword){
-    if(bcrypt.compareSync(storedPasswordHash,reqObjectPassword)){
-        return true
-    }
-    return false
-
-    //returns boolean
-
+function validatePassword(reqObjectPassword, storedPasswordHash) {
+	if (bcrypt.compareSync(reqObjectPassword, storedPasswordHash)) {
+		return true;
+	}
+	return false;
 }
 
 module.exports = validatePassword;

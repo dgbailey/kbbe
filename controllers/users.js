@@ -1,10 +1,10 @@
 //router
 const express = require('express');
 const router = express.Router();
-//registration service
 const registerNewUser = require('../services/userService/registerNewUser');
 const checkAuthorizationExpired = require('../utilities/middleware/checkAuthorizationExpired');
 const getBoardMetaByUserId = require('../services/userService/loginPreflightStatus');
+const loginUserService = require('../services/userService/loginUser');
 
 router.post('/signup', async (req, res) => {
 	//take body, extract creds, send creds to registration service, send appropriate response
@@ -26,8 +26,23 @@ router.post('/signup', async (req, res) => {
 	}
 });
 
-router.get('/login', async (req, res) => {
-	//get get board meta by user id
+router.post('/login', async (req, res, next) => {
+	console.log('response received');
+	let { username, password } = req.body;
+
+	try {
+		let { jwt, userUuid } = await loginUserService(username, password);
+		if (jwt) {
+			let metaData = await getBoardMetaByUserId(userUuid);
+
+			res.cookie('kbt', jwt, { httpOnly: true });
+			res.status(200).json({ metaData });
+		} else {
+			res.status(401).json('Username or password incorrect');
+		}
+	} catch (error) {
+		next(error);
+	}
 });
 
 router.get('/login/preflight', checkAuthorizationExpired, async (req, res) => {

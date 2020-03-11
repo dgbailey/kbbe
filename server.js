@@ -13,17 +13,17 @@ const catchAllErrorHandler = require('./utilities/middleware/catchAllErrorHandle
 
 const server = express();
 
-server.use(cors({origin:'http://localhost:3000',credentials:true,methods:['GET', 'PUT', 'POST','DELETE']}));
+server.use(cors({ origin: 'http://localhost:3000', credentials: true, methods: [ 'GET', 'PUT', 'POST', 'DELETE' ] }));
+server.use(bodyParser.json());
 server.use(cookieParser());
 server.use(helmet());
 server.use(morgan('dev'));
-server.use(bodyParser.json());
-server.use('/boards',boardRoutes);
-server.use('/flow',userRoutes);
-server.use('/items',itemRoutes);
-server.use('/columns',columnRoutes);
+
+server.use('/boards', boardRoutes);
+server.use('/flow', userRoutes);
+server.use('/items', itemRoutes);
+server.use('/columns', columnRoutes);
 server.use(clientErrorHandler);
 server.use(catchAllErrorHandler);
-
 
 module.exports = server;
