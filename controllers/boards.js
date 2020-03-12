@@ -4,6 +4,8 @@ const userService = require('../services/boardService/getColumnsByBoardId');
 const boardService = require('../services/boardService/insertNewBoard');
 const getColumnsByBoardServic = require('../services/columnService/getColumnsByBoardIdService');
 const getBoardByBoardIdService = require('../services/boardService/getBoardByBoardIdService');
+const getColumnsByBoardIdService = require('../services/columnService/getColumnsByBoardIdService');
+const getItemsByBoardIdService = require('../services/itemService/getItemsByBoardIdService');
 const postBoardByBoardIdAndNameService = require('../services/boardService/postBoardByBoardIdAndNameService');
 const postUserToBoardService = require('../services/boardService/postUserToBoardService');
 
@@ -21,6 +23,26 @@ router.get('/:id', async (req, res) => {
 	try {
 		let board = await getBoardByBoardIdService(id);
 		res.status(200).json(board);
+	} catch (customError) {
+		next(customError);
+	}
+});
+
+router.get('/:id/columns', async (req, res) => {
+	let id = req.params.id;
+	try {
+		let columns = await getColumnsByBoardIdService(id);
+		res.status(200).json(columns);
+	} catch (customError) {
+		next(customError);
+	}
+});
+
+router.get('/:id/items', async (req, res) => {
+	let id = req.params.id;
+	try {
+		let items = await getItemsByBoardIdService(id);
+		res.status(200).json(items);
 	} catch (customError) {
 		next(customError);
 	}

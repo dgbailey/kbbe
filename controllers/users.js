@@ -12,7 +12,6 @@ router.post('/signup', async (req, res) => {
 	console.log(body);
 	try {
 		let newUser = await registerNewUser(body);
-		console.log(newUser);
 		let { jwt, userName, userId } = newUser;
 		res.cookie('kbt', jwt, { httpOnly: true });
 		res.status(200).json({ userName, userId });
@@ -31,12 +30,12 @@ router.post('/login', async (req, res, next) => {
 	let { username, password } = req.body;
 
 	try {
-		let { jwt, userUuid } = await loginUserService(username, password);
+		let { jwt, userId } = await loginUserService(username, password);
 		if (jwt) {
-			let metaData = await getBoardMetaByUserId(userUuid);
+			let metaData = await getBoardMetaByUserId(userId);
 
 			res.cookie('kbt', jwt, { httpOnly: true });
-			res.status(200).json({ metaData });
+			res.status(200).json({ metaData, userId, username });
 		} else {
 			res.status(401).json('Username or password incorrect');
 		}

@@ -1,16 +1,14 @@
 const db = require('../../dbConfig');
+const RepositoryError = require('../../utilities/errors/repositoryError');
 
-
-const getColumnsByBoardId = bId => {
-    console.log('BID',bId)
-   
-    let query = `SELECT * FROM (SELECT * FROM columns LEFT JOIN row_items using(column_id)) as s WHERE  s.board_id = '${bId}';`
-    console.log(query)
-    return db.raw(query)
-
-
-}
+const getColumnsByBoardId = async (bId) => {
+	let query = `SELECT * FROM columns  WHERE board_id = '${bId}';`;
+	try {
+		let columns = await db.raw(query);
+		return columns;
+	} catch (error) {
+		throw new RepositoryError('getColumnsByBoardId', err);
+	}
+};
 
 module.exports = getColumnsByBoardId;
-
-

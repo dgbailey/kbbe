@@ -10,11 +10,11 @@ async function loginUserService(username, password) {
 		if (user.length === 0) {
 			return false;
 		} else {
-			let { password: hashedPassword, username: userName, user_uuid: userUuid } = user[0];
+			let { password: hashedPassword, username: userName, user_uuid: userId } = user[0];
 			let passwordIsCorrect = validatePassword(password, hashedPassword);
 			if (passwordIsCorrect) {
-				let jwt = generateToken({ userName, userUuid });
-				return { jwt, userUuid, userName };
+				let jwt = generateToken({ userName, userId });
+				return { jwt, userId, userName };
 			} else {
 				return false;
 			}
