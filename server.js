@@ -10,8 +10,13 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./controllers/users');
 const clientErrorHandler = require('./utilities/middleware/clientErrorHandler');
 const catchAllErrorHandler = require('./utilities/middleware/catchAllErrorHandler');
-
 const server = express();
+const WebSocket = require('ws');
+const webSocketServer = new WebSocket.Server({ server, path: 'http://localhost:3000/ws' });
+webSocketServer.on('connection', (ws) => {
+	console.info('Total connected clients:', webSocketServer.clients.size);
+	server.locals.clients = webSocketServer.clients;
+});
 
 server.use(cors({ origin: 'http://localhost:3000', credentials: true, methods: [ 'GET', 'PUT', 'POST', 'DELETE' ] }));
 server.use(bodyParser.json());
