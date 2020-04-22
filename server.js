@@ -28,13 +28,14 @@ server.use(catchAllErrorHandler);
 
 server.ws('/ws', function(ws, req) {
 	ws.on('message', function(msg) {
+		// console.log(req.server.locals.clients);
 		ws.send(msg);
 	});
 });
 
 enableWs.getWss().on('connection', (ws, req) => {
 	console.log('Total connected clients:', enableWs.getWss().clients.size);
-	server.locals.clients = enableWs.getWss.clients;
+	server.locals.clients = enableWs.getWss().clients;
 });
 
 module.exports = server;
