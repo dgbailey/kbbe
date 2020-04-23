@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 const broadCast = (clients, message, entityId) => {
 	let entityMembers = clients[entityId];
-	console.log(entityMembers);
+	console.log('members', entityMembers);
 	if (entityMembers) {
 		entityMembers.forEach((c) => {
 			console.log(c);

@@ -27,19 +27,20 @@ server.use('/columns', columnRoutes);
 server.use(clientErrorHandler);
 server.use(catchAllErrorHandler);
 
-//this represents endpoint for an already connected client. We need the actual WS server.
-
-//this gives us the server instance
+//this gives us the WS server instance
 enableWs.getWss().on('connection', (ws, req) => {
-	console.log('cookie', req.cookies);
-
 	if (!server.locals.clients) {
 		server.locals.clients = {};
 	}
 });
-server.ws('/ws/:entityId', function(ws, req) {
+
+//this represents endpoint for an already connected client.
+server.ws('/ws', function(ws, req) {
 	ws.on('message', function(msg) {
+		let entityId = msg;
+		console.log(entityId);
 		addClientToEntity(ws, entityId, server);
+		console.log(server.locals.clients);
 		console.log('Total active documents:', Object.keys(server.locals.clients));
 		ws.send('CONFIRMED');
 	});
