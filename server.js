@@ -13,6 +13,7 @@ const catchAllErrorHandler = require('./utilities/middleware/catchAllErrorHandle
 const server = express();
 const enableWs = require('express-ws')(server);
 const addClientToEntity = require('./utilities/websockets/addClientToEntity');
+const broadCast = require('./utilities/websockets/broadCast');
 server.use(cors({ origin: 'http://localhost:3000', credentials: true, methods: [ 'GET', 'PUT', 'POST', 'DELETE' ] }));
 server.use(bodyParser.json());
 server.use(cookieParser());
@@ -26,22 +27,22 @@ server.use('/columns', columnRoutes);
 server.use(clientErrorHandler);
 server.use(catchAllErrorHandler);
 
-server.ws('/ws/:entityId', function(ws, req) {
-	ws.on('message', function(msg) {
-		console.log(q);
-		// console.log(req.server.locals.clients);
-		ws.send(msg);
-	});
-});
+//this represents endpoint for an already connected client. We need the actual WS server.
 
+//this gives us the server instance
 enableWs.getWss().on('connection', (ws, req) => {
-	let entityId = req.params.entityId;
+	console.log('cookie', req.cookies);
+
 	if (!server.locals.clients) {
 		server.locals.clients = {};
 	}
-	console.log(server.locals.clients);
-	addClientToEntity(ws, entityId, server);
-	console.log('Total active documents:', Object.keys(server.locals.clients));
+});
+server.ws('/ws/:entityId', function(ws, req) {
+	ws.on('message', function(msg) {
+		addClientToEntity(ws, entityId, server);
+		console.log('Total active documents:', Object.keys(server.locals.clients));
+		ws.send('CONFIRMED');
+	});
 });
 
 module.exports = server;

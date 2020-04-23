@@ -49,6 +49,8 @@ router.get('/:id/items', async (req, res) => {
 });
 
 //still running into unhandled promise warnings. This was fixed.  Async errors were not being passed to express next();
+//options put board id in cookie?
+//after connection send back message asking for board id
 
 router.post('/', async (req, res, next) => {
 	let q = req.query;
