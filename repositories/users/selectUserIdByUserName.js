@@ -5,7 +5,10 @@ async function selectUserIdByUserName(username) {
 	try {
 		//grab user id by username
 		let userUuid = await db('users').where({ username: username });
-	} catch (error) {
-		throw new RepositoryError('shareBoardByUserName', error.message);
+		return userUuid;
+	} catch (customError) {
+		throw new RepositoryError('shareBoardByUserName', customError.message);
 	}
 }
+
+module.exports = selectUserIdByUserName;
