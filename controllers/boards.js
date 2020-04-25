@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userService = require('../services/boardService/getColumnsByBoardId');
 const boardService = require('../services/boardService/insertNewBoard');
+const addUserAsBoardMember = require('../services/boardService/addUserAsBoardMember');
 const getColumnsByBoardServic = require('../services/columnService/getColumnsByBoardIdService');
 const getBoardByBoardIdService = require('../services/boardService/getBoardByBoardIdService');
 const getColumnsByBoardIdService = require('../services/columnService/getColumnsByBoardIdService');
@@ -79,6 +80,17 @@ router.post('/newBoard', (req, res) => {
 		.createBoard(boardObject)
 		.then((data) => res.status(200).json(res.statusCode))
 		.catch((err) => res.status(500).json(err));
+});
+
+router.put('/:id/members', async (req, res, next) => {
+	try {
+		let boardId = req.params.id;
+		let newMemberUsername = req.query.userName;
+		let newMember = await addUserAsBoardMember(newMemberUsername, boardId);
+		res.status(200).json(newMember);
+	} catch (customError) {
+		next(customError);
+	}
 });
 
 module.exports = router;
