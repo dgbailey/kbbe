@@ -18,7 +18,6 @@ router.post('/', async (req, res, next) => {
 	//TODO:figure out how to include entity based broadcasting via entityId
 	const q = req.query;
 	const socketPayload = q.socketAction;
-	console.log('q', q);
 
 	try {
 		const rowItem = await postItemsByBoardIdService(q);
