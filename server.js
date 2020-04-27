@@ -38,11 +38,12 @@ enableWs.getWss().on('connection', (ws, req) => {
 server.ws('/ws', function(ws, req) {
 	ws.on('message', function(msg) {
 		let entityId = msg;
-		console.log(entityId);
+		console.log('entityId', entityId);
 		addClientToEntity(ws, entityId, server);
 		console.log(server.locals.clients);
 		console.log('Total active documents:', Object.keys(server.locals.clients));
-		ws.send('CONFIRMED');
+		let confirmation = { confirmation: 'SUCCESS' };
+		ws.send(JSON.stringify(confirmation));
 	});
 });
 

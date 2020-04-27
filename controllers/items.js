@@ -17,10 +17,13 @@ router.get('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	//TODO:figure out how to include entity based broadcasting via entityId
 	const q = req.query;
+	const socketPayload = q.socketAction;
+	console.log('q', q);
 
 	try {
-		broadCast(req.app.locals.clients, JSON.stringify(q), q.boardId);
 		const rowItem = await postItemsByBoardIdService(q);
+
+		broadCast(req.app.locals.clients, JSON.stringify({ ...rowItem, socketPayload }), q.boardId);
 		res.status(200).json(rowItem);
 	} catch (customError) {
 		next(customError);
