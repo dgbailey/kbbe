@@ -1,4 +1,5 @@
 const db = require('../../dbConfig');
+const RepositoryError = require('../../utilities/errors/repositoryError');
 
 const postUserToBoard = async (userId, boardId) => {
 	//insert(data, [returning])
