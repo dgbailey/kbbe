@@ -16,30 +16,30 @@ Robodex started as a kanban clone and it is still pretty much that. The intentio
 GET /boards/{boardId}
 ```
 ##### Path Parameters
-* id:string
+* boardId:string
 
 #### Get columns from board
 ```
 GET /boards/{boardId}/columns
 ```
 ##### Path Parameters
-* id:string
+* boardId:string
 
 #### Get items from board
 ```
 GET boards/{boardId}/items
 ```
 ##### Path Parameters
-* id:string
+* boardId:string
 
 #### Add member to board via username
 ```
 PUT boards/{boardId}/members
 ```
 ##### Path Parameters
-* id:string
+* boardId:string
 ##### Query Parameters
-*userName:string
+* userName:string
 
 ## Get items by board id
 ```
@@ -47,7 +47,7 @@ GET /items/{boardId}
 
 ```
 ##### Path Parameters
-* id:string
+* boardId:string
 
 
 ## Columns
@@ -74,9 +74,9 @@ GET /items/{boardId}
 
 ## Configuration
 ### CORS
-Whitelisting is necessary dude to the apps cookie based authentication. This can also be configured with dotenv variables. Whitelisting is explicit in server.js.
+Whitelisting is necessary due to the apps cookie based authentication. This can also be configured with dotenv variables. Whitelisting is explicit in server.js.
 ### Database
-Database configuration is necessary in the knex.js file. A dotenv file in the project root with the appropriate env variables will to the trick.
+Database configuration is necessary in the knex.js file. A dotenv file in the project root with the appropriate env variables will do the trick.
 
 ## Installation & Setup
 ```
