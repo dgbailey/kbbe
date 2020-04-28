@@ -1,45 +1,43 @@
-#ROBODEX
+# ROBODEX
 
 Robodex started as a kanban clone and it is still pretty much that. The intention is for it to grow into a collaborative tool for note taking.
 
-##Current Features
-*Board Sharing via username.
-*Board based edit broadcasting via Web Sockets.
-*Cookie based authentication.
+## Current Features
+* Board Sharing via username.
+* Board based edit broadcasting via Web Sockets.
+* Cookie based authentication.
 
-##API
+## API
 
-###Board
+### Board
 
-####Get a Board
+#### Get a Board
 ```
 GET /boards/{id}
 ```
-#####Path Parameters
-*id:string
+##### Path Parameters
+* id:string
 
-####Get columns from board
+#### Get columns from board
 ```
 GET /{id}/columns
 ```
-#####Path Parameters
-*id:string
+##### Path Parameters
+* id:string
 
-####Get items from board
+#### Get items from board
 ```
 GET /{id}/items
 ```
-#####Path Parameters
-*id:string
-
+##### Path Parameters
+* id:string
+```
 server.use('/flow', userRoutes);
 server.use('/items', itemRoutes);
 server.use('/columns', columnRoutes);
 ```
 
-
-##
-Requirements
+## Requirements
 ```
         bcryptjs": "^2.4.3",
 		"cookie-parser": "^1.4.4",
@@ -56,10 +54,10 @@ Requirements
 		"ws": "^7.2.3"
 ```
 
-##Configuration
+## Configuration
 
 
-##Installation & Setup
+## Installation & Setup
 ```npm install
     npm run server
 ```
