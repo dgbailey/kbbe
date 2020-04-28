@@ -7,6 +7,10 @@ Robodex started as a kanban clone and it is still pretty much that. The intentio
 * Board based edit broadcasting via Web Sockets.
 * Cookie based authentication.
 
+## Vision
+* Optimistic UI with offline capability.
+* Evential consistency for 'simultaneous' edits on the same object.
+* gmail enabled login
 ## API
 
 ## Board
