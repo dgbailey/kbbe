@@ -7,7 +7,6 @@ async function postColumnService({ boardId, colName, ...rest }) {
 	let pos = 65000;
 	try {
 		const colObject = { colName, colId, boardId, pos };
-		console.log(colObject);
 		let [ column ] = await postColumn(colObject);
 		return column;
 	} catch (err) {

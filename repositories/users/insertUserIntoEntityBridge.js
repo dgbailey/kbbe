@@ -2,7 +2,6 @@ const db = require('../../dbConfig');
 const RepositoryError = require('../../utilities/errors/repositoryError');
 
 async function insertUserIntoEntityBridge(uniqueId, entityId) {
-	console.log(uniqueId, entityId);
 	let stored = 'INSERT INTO board_user_bridge (user_uuid,board_id) VALUES (?,?);';
 
 	try {

@@ -9,7 +9,7 @@ const loginUserService = require('../services/userService/loginUser');
 router.post('/signup', async (req, res) => {
 	//take body, extract creds, send creds to registration service, send appropriate response
 	let body = req.body;
-	console.log(body);
+
 	try {
 		let newUser = await registerNewUser(body);
 		let { jwt, userName, userId } = newUser;
@@ -21,12 +21,10 @@ router.post('/signup', async (req, res) => {
 		} else {
 			res.status(500).json(err.message);
 		}
-		console.log(err.message);
 	}
 });
 
 router.post('/login', async (req, res, next) => {
-	console.log('response received');
 	let { username, password } = req.body;
 
 	try {
@@ -48,7 +46,6 @@ router.get('/login/preflight', checkAuthorizationExpired, async (req, res) => {
 	//checkAuthExpired middleware checks cookie status, appends user metadata to req for further processing
 
 	let { uuid: userId } = req.user;
-	console.log('userid', userId);
 
 	try {
 		let metaData = await getBoardMetaByUserId(userId);
@@ -56,7 +53,6 @@ router.get('/login/preflight', checkAuthorizationExpired, async (req, res) => {
 			throw new Error('Server Error: Controller no board metadata');
 		}
 		let body = { userId, metaData };
-		console.log(body);
 		res.status(200).json(body);
 	} catch (err) {
 		throw new Error(`Server Error: user controller login preflight ${err}`);

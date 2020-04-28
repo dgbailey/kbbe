@@ -2,21 +2,17 @@ const postBoardByBoardIdAndName = require('../../repositories/boards/postBoardBy
 const ServiceError = require('../../utilities/errors/serviceError');
 const uuid4 = require('uuid4');
 
+async function postBoardByBoardIdAndNameService({ name, ...rest }) {
+	const boardId = uuid4();
 
-async function postBoardByBoardIdAndNameService({name,...rest}){
-    const boardId = uuid4();
-   
-    const boardObject = {boardId,name}
+	const boardObject = { boardId, name };
 
-    try{
-        let [board] = await postBoardByBoardIdAndName(boardObject);
-        console.log(board)
-        return board
-    }
-    catch(err){
-        throw new ServiceError('postBoardByBoardIdAndNameService',err);
-    }
-   
+	try {
+		let [ board ] = await postBoardByBoardIdAndName(boardObject);
+		return board;
+	} catch (err) {
+		throw new ServiceError('postBoardByBoardIdAndNameService', err);
+	}
 }
 
 module.exports = postBoardByBoardIdAndNameService;

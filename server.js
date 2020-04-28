@@ -13,12 +13,13 @@ const catchAllErrorHandler = require('./utilities/middleware/catchAllErrorHandle
 const server = express();
 const enableWs = require('express-ws')(server);
 const addClientToEntity = require('./utilities/websockets/addClientToEntity');
-const broadCast = require('./utilities/websockets/broadCast');
-server.use(cors({ origin: 'http://localhost:3000', credentials: true, methods: [ 'GET', 'PUT', 'POST', 'DELETE' ] }));
+server.use(
+	cors({ origin: process.env.CLIENT_WHITE_LIST, credentials: true, methods: [ 'GET', 'PUT', 'POST', 'DELETE' ] })
+);
 server.use(bodyParser.json());
 server.use(cookieParser());
 server.use(helmet());
-server.use(morgan('dev'));
+server.use(morgan(process.env.SERVER_LOG_SETTING));
 
 server.use('/boards', boardRoutes);
 server.use('/flow', userRoutes);
@@ -34,14 +35,12 @@ enableWs.getWss().on('connection', (ws, req) => {
 	}
 });
 
-//this represents endpoint for an already connected client.
+//this represents an endpoint for an already connected client.
 server.ws('/ws', function(ws, req) {
 	ws.on('message', function(msg) {
 		let entityId = msg;
-		console.log('entityId', entityId);
 		addClientToEntity(ws, entityId, server);
-		console.log(server.locals.clients);
-		console.log('Total active documents:', Object.keys(server.locals.clients));
+		console.log('Total active boards:', Object.keys(server.locals.clients));
 		let confirmation = { confirmation: 'SUCCESS' };
 		ws.send(JSON.stringify(confirmation));
 	});
