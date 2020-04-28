@@ -9,7 +9,7 @@ Robodex started as a kanban clone and it is still pretty much that. The intentio
 
 ## API
 
-### Board
+## Board
 
 #### Get a Board
 ```
@@ -20,17 +20,39 @@ GET /boards/{id}
 
 #### Get columns from board
 ```
-GET /{id}/columns
+GET /boards/{id}/columns
 ```
 ##### Path Parameters
 * id:string
 
 #### Get items from board
 ```
-GET /{id}/items
+GET boards/{id}/items
 ```
 ##### Path Parameters
 * id:string
+
+#### Add member to board via username
+```
+PUT boards/{id}/members
+```
+##### Path Parameters
+* id:string
+##### Query Parameters
+*userName:string
+
+## Get items by board id
+```
+GET /items/{:id}
+
+```
+##### Path Parameters
+* id:string
+
+
+## Columns
+
+## Users
 ```
 server.use('/flow', userRoutes);
 server.use('/items', itemRoutes);
@@ -58,6 +80,7 @@ server.use('/columns', columnRoutes);
 
 
 ## Installation & Setup
-```npm install
+```
+    npm install
     npm run server
 ```
