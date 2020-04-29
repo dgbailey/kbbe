@@ -10,6 +10,7 @@ async function postColumnService({ boardId, colName, ...rest }) {
 		let [ column ] = await postColumn(colObject);
 		return column;
 	} catch (err) {
+		console.log(err);
 		throw new ServiceError('postColumnService', err);
 	}
 }
