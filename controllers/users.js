@@ -29,11 +29,14 @@ router.post('/login', async (req, res, next) => {
 
 	try {
 		let { jwt, userId } = await loginUserService(username, password);
+		
 		if (jwt) {
+			
 			let metaData = await getBoardMetaByUserId(userId);
-
-			res.cookie('kbt', jwt, { httpOnly: true });
+			
+			res.cookie('kbt', jwt, { httpOnly: true});
 			res.status(200).json({ metaData, userId, username });
+		
 		} else {
 			res.status(401).json('Username or password incorrect');
 		}
@@ -42,7 +45,7 @@ router.post('/login', async (req, res, next) => {
 	}
 });
 
-router.get('/login/preflight', checkAuthorizationExpired, async (req, res) => {
+router.get('/login/preflight', checkAuthorizationExpired, async (req, res, next) => {
 	//checkAuthExpired middleware checks cookie status, appends user metadata to req for further processing
 
 	let { uuid: userId } = req.user;
@@ -55,7 +58,8 @@ router.get('/login/preflight', checkAuthorizationExpired, async (req, res) => {
 		let body = { userId, metaData };
 		res.status(200).json(body);
 	} catch (err) {
-		throw new Error(`Server Error: user controller login preflight ${err}`);
+		next(err);
+		// throw new Error(`Server Error: user controller login preflight ${err}`);
 	}
 });
 
