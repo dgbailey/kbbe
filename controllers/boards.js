@@ -7,6 +7,7 @@ const getColumnsByBoardIdService = require('../services/columnService/getColumns
 const getItemsByBoardIdService = require('../services/itemService/getItemsByBoardIdService');
 const postBoardByBoardIdAndNameService = require('../services/boardService/postBoardByBoardIdAndNameService');
 const postUserToBoardService = require('../services/boardService/postUserToBoardService');
+const getBoardMembersByIdService = require('../services/boardService/getBoardMembersByIdService');
 
 router.get('/:id', async (req, res) => {
 	let id = req.params.id;
@@ -33,6 +34,17 @@ router.get('/:id/items', async (req, res) => {
 	try {
 		let items = await getItemsByBoardIdService(id);
 		res.status(200).json(items);
+	} catch (customError) {
+		next(customError);
+	}
+});
+
+router.get('/:id/members', async (req, res, next) => {
+	let id = req.params.id;
+	try {
+		let boardMembers = await getBoardMembersByIdService(id);
+		console.log(boardMembers)
+		res.status(200).json(boardMembers);
 	} catch (customError) {
 		next(customError);
 	}
