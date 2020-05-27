@@ -4,7 +4,7 @@ const broadCast = (clients, message, entityId) => {
 	if (entityMembers) {
 		entityMembers.forEach((c) => {
 			if (c.readyState === WebSocket.OPEN) {
-				c.send(message);
+				c.send(JSON.stringify(message));
 			}
 		});
 	}
