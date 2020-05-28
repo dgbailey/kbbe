@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
 
 	try {
 		let column = await postColumnService(q);
-		broadCast(req.app.locals.clients, JSON.stringify({ ...column, socketPayload }), q.boardId);
+		broadCast(req.app.locals.clients, { ...column, socketPayload }, q.boardId);
 		res.status(200).json(column);
 	} catch (customError) {
 		next(customError);

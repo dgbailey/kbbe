@@ -22,7 +22,7 @@ router.post('/', async (req, res, next) => {
 	try {
 		const rowItem = await postItemsByBoardIdService(q);
 
-		broadCast(req.app.locals.clients, JSON.stringify({ ...rowItem, socketPayload }), q.boardId);
+		broadCast(req.app.locals.clients, { ...rowItem, socketPayload }, q.boardId);
 		res.status(200).json(rowItem);
 	} catch (customError) {
 		next(customError);
