@@ -42,18 +42,59 @@ enableWs.getWss().on('connection', (ws, req) => {
 //each event necessitates a rebroadcast of active clients
 //on message filter 
 
+/*
+currently
+socket opens, regesters to channel, receives broadcasts
+currently
+only broadcasts newly active connections, already active connections are never broadcast
+currently
+server does not handle active vs inactive data. Client labels on server broadcast
+
+client meta details {username, id}
+
+approach: ON CLIENT OPEN
+client cill send socket request, then SOCKET OPEN message type
+server will add meta data to client instance .isActive = true at this point and .userMeta = {userObject}
+server will marshall all active connections beloning to entity id and send list of userMeta Objects
+server will broadcast 
+
+approach: ON CLIENT CLOSE
+client will send socket close message type
+server will update ws.isActive to false
+server will prune list of connections on the channel that are not active
+server will broadcast new list of clients
+
+*/
+
 server.ws('/ws', function(ws, req) {
+	
 	ws.on('message', function(msg) {
+		
 		let parsed = JSON.parse(msg);
 		let {type,payload,status} = parsed;
-		console.log(msg)
 
+		//TODO: import this as utility
+		function grabActiveClients(entityId){
+			let activeClients = [];
+			server.locals.clients[entityId].forEach(c => {
+				if(c.isActive){
+					c.userMeta['isActive'] = c.isActive;
+					activeClients.push(c.userMeta)
+				} 
+			});
+			return activeClients
+		}
+		
+	
 		switch(type){
 			case 'SOCKET_OPEN':
+				ws.isActive = true;
+				ws.userMeta = {...payload};
 				addClientToEntity(ws, payload.entityId, server);
-				console.log('Total active boards:', Object.keys(server.locals.clients));
+				let activeClientsToBroadCast = grabActiveClients(payload.entityId);
+				// console.log('Total active boards:', Object.keys(server.locals.clients));
 				console.log('server open payload',payload);
-				broadCast(server.locals.clients,{socketPayload:type,...payload},payload.entityId)
+				broadCast(server.locals.clients,{socketPayload:type,activeClientsToBroadCast},payload.entityId)
 				break;
 			case 'SOCKET_CLOSE':
 				//receives entity id
