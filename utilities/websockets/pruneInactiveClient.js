@@ -6,11 +6,15 @@
 function pruneInactiveClient(ws, expressServer, entityId) {
   //wss will clean it's record of inactive client instances
   //However channel will not. this is why the following is necessary
-  expressServer.locals.clients[entityId] = expressServer.locals.clients[
-    entityId
-  ].filter((c) => c !== ws);
-  if (expressServer.locals.clients[entityId].length === 0) {
-    delete expressServer.locals.clients[entityId];
+  let channels = expressServer.locals.clients;
+
+  if (channels[entityId]) {
+    channels[entityId] = expressServer.locals.clients[entityId].filter(
+      (c) => c !== ws
+    );
+    if (channels[entityId].length === 0) {
+      delete expressServer.locals.clients[entityId];
+    }
   }
 }
 

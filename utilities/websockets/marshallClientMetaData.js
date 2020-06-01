@@ -1,23 +1,24 @@
 /**
- * 
+ *
  * @param {Oject} expressServer - The express server instance
  * @param {String} entityId - The uuid of our channel
  */
 
-function marshallClientMetaData(expressServer,entityId){
-			
-    let clientMetaData = [];
-    expressServer.locals.clients[entityId].forEach(c => {
-        if(c.isActive){
-            c.userMeta['isActive'] = true;
-            
-        } 
-        else{
-            c.userMeta['isActive'] = false;
-        }
-        clientMetaData.push(c.userMeta)
+function marshallClientMetaData(expressServer, entityId) {
+  let clientMetaData = [];
+
+  if (expressServer.locals.clients[entityId]) {
+    expressServer.locals.clients[entityId].forEach((c) => {
+      if (c.isActive) {
+        c.userMeta["isActive"] = true;
+      } else {
+        c.userMeta["isActive"] = false;
+      }
+      clientMetaData.push(c.userMeta);
     });
-    return clientMetaData
+  }
+
+  return clientMetaData;
 }
 
 module.exports = marshallClientMetaData;
