@@ -1,7 +1,7 @@
-const broadCast = require("./utilities/websockets/broadCast");
-const addClientToEntity = require("./utilities/websockets/addClientToEntity");
-const marshallClientMetaData = require("./utilities/websockets/marshallClientMetaData");
-const pruneInactiveClient = require("./utilities/websockets/pruneInactiveClient");
+const broadCast = require("./broadCast");
+const addClientToEntity = require("./addClientToEntity");
+const marshallClientMetaData = require("./marshallClientMetaData");
+const pruneInactiveClient = require("./pruneInactiveClient");
 /**
  * @param {Object} expressServer - The express server instance
  *
@@ -18,10 +18,10 @@ Web Socket Flow -- User Presence
 function configureWebSocketEndpoint(expressServer) {
   expressServer.ws("/ws", function (ws, req) {
     //incoming ws connection.
+    let clientMetaData;
     ws.on("message", function (msg) {
       let parsed = JSON.parse(msg);
       let { type, payload } = parsed;
-      let clientMetaData;
       /*
               payload shape
               { entityId: uuid string,
@@ -30,7 +30,6 @@ function configureWebSocketEndpoint(expressServer) {
               */
       switch (type) {
         case "SOCKET_OPEN":
-          ws.isActive = true;
           ws.userMeta = { ...payload };
           addClientToEntity(ws, payload.entityId, expressServer);
           clientMetaData = marshallClientMetaData(
@@ -60,6 +59,21 @@ function configureWebSocketEndpoint(expressServer) {
       }
     });
     ws.on("close", function (msg) {
+      //could be duplicating work here to try and cover page refreshes
+      ws.isActive = false;
+      if (!expressServer.locals.clients[ws.userMeta.entityId]) {
+        clientMetaData = marshallClientMetaData(
+          expressServer,
+          ws.userMeta.entityId
+        );
+        pruneInactiveClient(ws, expressServer, ws.userMeta.entityId);
+        broadCast(
+          expressServer.locals.clients,
+          { socketPayload: "SOCKET_CLOSE", clientMetaData },
+          ws.userMeta.entityId
+        );
+      }
+
       //closing will remove ws from ws expressServer instance but not from channels
     });
   });
