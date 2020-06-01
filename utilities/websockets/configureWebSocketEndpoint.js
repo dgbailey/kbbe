@@ -59,23 +59,23 @@ function configureWebSocketEndpoint(expressServer) {
       }
     });
     ws.on("close", function (msg) {
-      //could be duplicating work here to try and cover page refreshes
+      console.log("Tab close??");
+      //could be duplicating work here to try and cover non-graceful socket closes (tab close,browser close)
       ws.isActive = false;
-      if (!expressServer.locals.clients[ws.userMeta.entityId]) {
-        clientMetaData = marshallClientMetaData(
-          expressServer,
-          ws.userMeta.entityId
-        );
-        pruneInactiveClient(ws, expressServer, ws.userMeta.entityId);
-        broadCast(
-          expressServer.locals.clients,
-          { socketPayload: "SOCKET_CLOSE", clientMetaData },
-          ws.userMeta.entityId
-        );
-      }
 
-      //closing will remove ws from ws expressServer instance but not from channels
+      clientMetaData = marshallClientMetaData(
+        expressServer,
+        ws.userMeta.entityId
+      );
+      pruneInactiveClient(ws, expressServer, ws.userMeta.entityId);
+      broadCast(
+        expressServer.locals.clients,
+        { socketPayload: "SOCKET_CLOSE", clientMetaData },
+        ws.userMeta.entityId
+      );
     });
+
+    //closing will remove ws from ws expressServer instance but not from channels
   });
 }
 module.exports = configureWebSocketEndpoint;
