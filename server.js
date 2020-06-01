@@ -13,7 +13,7 @@ const catchAllErrorHandler = require("./utilities/middleware/catchAllErrorHandle
 const server = express();
 const enableWs = require("express-ws")(server);
 const enableWebSocketChannels = require("./utilities/websockets/enableWebSocketChannels");
-const configureWebSocketEndpoint = require("./configureWebSocketEndpoint");
+const configureWebSocketEndpoint = require("./utilities/websockets/configureWebSocketEndpoint");
 server.use(
   cors({
     origin: process.env.CLIENT_WHITE_LIST,
