@@ -9,6 +9,7 @@ const initializeHeartBeat = require("./initializeHeartBeat");
 function enableWebSocketChannels(expressServer, webSocketServer) {
   initializeChannels(expressServer);
   initializeHeartBeat(webSocketServer, 20000);
+
   webSocketServer.getWss().on("connection", (ws, req) => {
     composeWithHeartBeat(ws);
   });
